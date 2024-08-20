@@ -1,52 +1,38 @@
 const swipeable = document.querySelector('.swipeable');
-let isDown = false;
-let startX;
-let scrollLeft;
+const dots = document.querySelectorAll('.dot');
+let autoScroll;
+let currentIndex = 0;
 
-// Handle mouse dragging
-swipeable.addEventListener('mousedown', (e) => {
-    isDown = true;
-    startX = e.pageX - swipeable.offsetLeft;
-    scrollLeft = swipeable.scrollLeft;
+function updateDots() {
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentIndex);
+    });
+}
+
+function scrollToIndex(index) {
+    swipeable.style.transform = `translateX(-${index * 300}px)`;
+    currentIndex = index;
+    updateDots();
+}
+
+function startAutoScroll() {
+    autoScroll = setInterval(() => {
+        currentIndex = (currentIndex + 1) % dots.length;
+        scrollToIndex(currentIndex);
+    }, 3000); // Adjust the interval as needed
+}
+
+swipeable.addEventListener('mousedown', () => clearInterval(autoScroll));
+swipeable.addEventListener('mouseup', startAutoScroll);
+swipeable.addEventListener('touchstart', () => clearInterval(autoScroll));
+swipeable.addEventListener('touchend', startAutoScroll);
+
+dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+        clearInterval(autoScroll);
+        scrollToIndex(index);
+        startAutoScroll();
+    });
 });
 
-swipeable.addEventListener('mouseleave', () => {
-    isDown = false;
-});
-
-swipeable.addEventListener('mouseup', () => {
-    isDown = false;
-});
-
-swipeable.addEventListener('mousemove', (e) => {
-    if (!isDown) return;
-    e.preventDefault();
-    const x = e.pageX - swipeable.offsetLeft;
-    const walk = (x - startX) * 3; //scroll-fast
-    swipeable.scrollLeft = scrollLeft - walk;
-});
-
-// Handle touch events
-swipeable.addEventListener('touchstart', (e) => {
-    isDown = true;
-    startX = e.touches[0].pageX - swipeable.offsetLeft;
-    scrollLeft = swipeable.scrollLeft;
-});
-
-swipeable.addEventListener('touchend', () => {
-    isDown = false;
-});
-
-swipeable.addEventListener('touchmove', (e) => {
-    if (!isDown) return;
-    const x = e.touches[0].pageX - swipeable.offsetLeft;
-    const walk = (x - startX) * 3; //scroll-fast
-    swipeable.scrollLeft = scrollLeft - walk;
-});
-
-// Handle touchpad scrolling
-swipeable.addEventListener('wheel', (e) => {
-    e.preventDefault();
-    swipeable.scrollLeft += e.deltaY > 0 ? 100 : -100;
-});
-
+startAutoScroll(); // Start auto scrolling when the page loads
