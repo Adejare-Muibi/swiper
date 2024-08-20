@@ -64,8 +64,8 @@ body, html {
 
 .container {
     width: 300px;
-    position: relative;
     overflow: hidden;
+    position: relative;
 }
 
 .swipeable {
