@@ -1,0 +1,93 @@
+/* *{
+    padding: 0%;
+    margin: 0;
+    box-sizing: border-box;
+}
+.cont {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 300%; 
+    animation: slide 9s infinite linear;
+}
+
+.slide {
+    background-color: blue;
+    padding: 20px;
+    flex-shrink: 0;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+    width: 100%; 
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(0); 
+    }
+    33.33% {
+        transform: translateX(0); 
+    }
+    66.66% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(-200%); 
+    }
+} */
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+}
+
+.container {
+    width: 300px;
+    overflow-x: scroll; /* Change overflow to scroll horizontally */
+}
+
+.swipeable {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+}
+
+.child {
+    min-width: 300px;
+    height: 200px;
+    display: inline-flex; /* Use inline-flex to maintain width */
+    justify-content: center;
+    align-items: center;
+    background-color: #007BFF;
+    color: white;
+    font-size: 24px;
+    margin: 10px;
+}
+
+.child:nth-child(2) {
+    background-color: #28A745;
+}
+
+.child:nth-child(3) {
+    background-color: #DC3545;
+}
